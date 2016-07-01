@@ -4,12 +4,20 @@ class View
   end
 
   def display_descriptions(restaurants)
-    restaurants.each do |violation|
-      puts
-      puts "These are the violations for #{violation["dba"]} on #{violation["inspection_date"]}:"
-      puts "-" * 80
-      puts violation["violation_description"]
-      puts
+    if restaurants.kind_of?(Hash)
+        puts
+        puts "These are the violations for #{restaurants["dba"]} on #{restaurants["inspection_date"]}:"
+        puts "-" * 80
+        puts restaurants["violation_description"]
+        puts
+    else
+      restaurants.each do |violation|
+        puts
+        puts "These are the violations for #{violation["dba"]} on #{violation["inspection_date"]}:"
+        puts "-" * 80
+        puts violation["violation_description"]
+        puts
+      end
     end
   end
 
