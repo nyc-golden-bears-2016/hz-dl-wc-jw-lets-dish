@@ -17,7 +17,7 @@ class InspectionSorter
       row["inspection_date"] = Time.parse(row["inspection_date"])
     end
 
-    current_violations = violations.select { |row| row["inspection_date"] >= Time.new("2016-01-01")}
+    current_violations = violations.select { |row| row["inspection_date"] >= Time.new("2015-01-01")}
     # current_violations.each do |row|
     #   puts row["inspection_date"]
     # end
@@ -27,6 +27,8 @@ class InspectionSorter
     @violations
     if options == "restaurant of the year"
       return restaurant_of_the_year
+    elsif options == "banned patrons wendy's"
+      return {banned: ""}
     end
     if !(options.nil?)
       if !(options['restaurant'].nil?)
