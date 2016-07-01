@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'JSON'
+require 'pry'
 
 class InspectionSorter
 
@@ -22,6 +23,27 @@ class InspectionSorter
     # end
   end
 
+  def get_violations(options)
+    @violations
+    if options == "restaurant of the year"
+      return restaurant_of_the_year
+    end
+    if !(options.nil?)
+      if !(options['restaurant'].nil?)
+        @violations = by_restaurant(options['restaurant'])
+      end
+      if !(options['burrough'].nil?)
+        @violations = by_burrough(options['burrough'])
+      end
+      if !(options['zipcode'].nil?)
+        @violations = by_zip(options['zipcode'])
+      end
+      @violations
+    end
+  end
+
+  private
+
   def restaurant_of_the_year
     restaurant = @violations.min_by do |row|
       if row["score"].nil?
@@ -30,24 +52,8 @@ class InspectionSorter
         row["score"].to_i
       end
     end
-    p restaurant
+    restaurant
   end
-
-  def get_violations(options)
-    filtered = @violations
-    if !(options['restaurant'].nil?)
-      filtered = by_restaurant(filtered)
-    end
-    if !(options['burrough'].nil?)
-      filtered = by_burrough(filtered)
-    end
-    if !(options['zipcode'].nil?)
-      filtered = by_zip(filtered)
-    end
-    filtered
-  end
-
-  private
 
   def by_restaurant(restaurant)
     @violations.select { |row| row["dba"].upcase == restaurant.upcase }
